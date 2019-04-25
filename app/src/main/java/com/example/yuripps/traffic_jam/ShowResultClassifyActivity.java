@@ -29,9 +29,10 @@ public class ShowResultClassifyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String result = intent.getStringExtra("result");
 
-
         ImageView back = findViewById(R.id.backtomain);
         back.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ShowResultClassifyActivity.this,MainActivity.class);

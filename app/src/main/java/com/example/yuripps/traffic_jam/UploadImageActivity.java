@@ -84,6 +84,7 @@ public class UploadImageActivity extends AppCompatActivity {
         }
     }
 
+
     public void uploadToHtdoc(){
         String url = db.getNg();
         Toast.makeText(getBaseContext(), "อัปโหลดรูป", Toast.LENGTH_LONG).show();
@@ -97,6 +98,7 @@ public class UploadImageActivity extends AppCompatActivity {
                 .setCallback(new FutureCallback<String>() {
                     @Override
                     public void onCompleted(Exception e, String result) {
+                        db.updateDistcount(db.getName());
                         Intent i = new Intent(UploadImageActivity.this, com.example.yuripps.traffic_jam.ShowResultClassifyActivity.class);
                         startActivity(i);
                     }

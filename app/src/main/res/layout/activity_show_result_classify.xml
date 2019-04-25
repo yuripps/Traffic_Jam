@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_cou"
+    android:background="@drawable/result"
     tools:context="com.example.yuripps.traffic_jam.ShowResultClassifyActivity">
 
 

@@ -33,6 +33,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -81,6 +82,15 @@ public class CameraAPIActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_api);
+
+        ImageView back = findViewById(R.id.back_cam);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraAPIActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Button Gallery = findViewById(R.id.chooseGallery);
         Gallery.setOnClickListener(new View.OnClickListener() {

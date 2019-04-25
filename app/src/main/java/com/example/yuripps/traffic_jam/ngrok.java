@@ -18,10 +18,22 @@ public class ngrok extends AppCompatActivity {
     private EditText ngrok;
     //    private InputValidation inputValidation;
     //DatabaseHelper db = new DatabaseHelper(activity);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ngrok);
+
+        Button main = findViewById(R.id.button7);
+        main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ngrok.this, com.example.yuripps.traffic_jam.MainActivity.class);
+                startActivity(i);
+
+            }
+        });
 
         call_ng();
 

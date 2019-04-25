@@ -7,9 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
+import com.example.yuripps.traffic_jam.model.User;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "mushroomclassify1.db";
+    private static final String DATABASE_NAME = "trafficjam.db";
     private static final int DATABASE_VERSION = 1;
 
 
@@ -17,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USER_ID = "user_id";
     private static final String COLUMN_USER_NAME = "user_name";
     private static final String COLUMN_USER_PASSWORD = "user_password";
+
 
     private static final String TABLE_RECENT = "recent";
     private static final String COLUMN_ID = "user_id";
@@ -26,6 +29,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NG_ID = "ng_id";
     private static final String COLUMN_NG_PATH = "ng_path";
 
+    private static final String TABLE_DISCOUNT = "discount";
+    private static final String COL_ID = "_id";
+    private static final String COL_NAME = "name";
 
 
 
@@ -45,6 +51,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private String DROP_RECENT_TABLE = "DROP TABLE IF EXISTS " + TABLE_RECENT;
 
+    private String CREATE_DISCOUNT_TABLE = "CREATE TABLE " + TABLE_DISCOUNT  + "("
+            + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COL_NAME + " TEXT" +")";
+
+    private String DROP_DISCOUNT_TABLE = "DROP TABLE IF EXISTS " + TABLE_DISCOUNT;
+
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -55,13 +67,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_RECENT_TABLE);
         db.execSQL(CREATE_NGROK_TABLE);
+        db.execSQL(CREATE_DISCOUNT_TABLE);
     }
 
     public  void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL(DROP_USER_TABLE);
         db.execSQL(DROP_RECENT_TABLE);
         db.execSQL(DROP_NGROK_TABLE);
+        db.execSQL(DROP_DISCOUNT_TABLE);
         onCreate(db);
+    }
+
+    public void addUser(User user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_NAME, user.getName());
+        values.put(COLUMN_USER_PASSWORD, user.getPassword());
+
+        db.insert(TABLE_USER, null, values);
+        db.close();
     }
 
 
@@ -72,6 +96,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.insert(TABLE_NGROK, null, values);
             db.close();
         }
+
+    public void add(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, name);
+        db.insert(TABLE_RECENT, null, values);
+        db.close();
+    }
 
         public String getName(){
             SQLiteDatabase db = this.getWritableDatabase();
@@ -144,5 +176,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
 
+    public void updateDistcount(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_NAME, name);
+        db.insert(TABLE_DISCOUNT, null, values);
+        db.close();
+
+    }
+
+    public int checkDistcount(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        name = "'" + name + "'";
+        Cursor cursor = db.rawQuery("SELECT " + COL_NAME
+                + " FROM " + TABLE_DISCOUNT + " WHERE " + COL_NAME + "= " + name , null);
+        int cursorCount = cursor.getCount();
+
+        cursor.close();
+        db.close();
+
+        return cursorCount;
+
+    }
 
 }
